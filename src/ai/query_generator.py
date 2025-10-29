@@ -148,6 +148,63 @@ class GeminiQueryGenerator:
         return sql_query.strip().upper().startswith("SELECT")
 
 
+
+class LLMQueryGenerator:
+    """
+    Generates SQL queries from natural language using an LLM provider (e.g., Gemini).
+    
+    This class handles all AI model interactions for query generation.
+    Follows Interface Segregation Principle.
+    """
+    
+    def __init__(self, api_key: str, model_name: str = "gemini-2.5-pro"):
+        """
+        Initialize LLM query generator.
+        
+        Args:
+            api_key (str): LLM provider API key
+            model_name (str): Name of the model to use
+        """
+        self.api_key = api_key
+        self.model_name = model_name
+        self._configure_api()
+        self.prompt_template = PromptTemplate()
+    
+    def _configure_api(self) -> None:
+        """
+        Configure the provider SDK (currently Google Gemini via google.generativeai).
+        """
+        try:
+            genai.configure(api_key=self.api_key)
+        except Exception as e:
+            raise Exception(f"Failed to configure LLM API: {str(e)}")
+    
+    def generate_sql_query(self, natural_language_question: str) -> str:
+        """
+        Generate SQL query from natural language question.
+        """
+        try:
+            model = genai.GenerativeModel(self.model_name)
+            prompt = self.prompt_template.get_sql_generation_prompt()
+            response = model.generate_content([prompt, natural_language_question])
+            sql_query = response.text.strip()
+            if sql_query.startswith("```"):
+                sql_query = sql_query.split("\n", 1)[1]
+            if sql_query.endswith("```"):
+                sql_query = sql_query.rsplit("\n", 1)[0]
+            if sql_query.lower().startswith("sql"):
+                sql_query = sql_query[3:].strip()
+            return sql_query.strip()
+        except Exception as e:
+            raise Exception(f"Failed to generate SQL query: {str(e)}")
+    
+    def validate_query_is_select(self, sql_query: str) -> bool:
+        return sql_query.strip().upper().startswith("SELECT")
+
+
+GeminiQueryGenerator = LLMQueryGenerator
+
+
 class QueryGeneratorFactory:
     """
     Factory class for creating query generator instances.
@@ -156,15 +213,8 @@ class QueryGeneratorFactory:
     """
     
     @staticmethod
-    def create_generator(api_key: str, model_name: str = "gemini-2.5-pro") -> GeminiQueryGenerator:
+    def create_generator(api_key: str, model_name: str = "gemini-2.5-pro") -> LLMQueryGenerator:
         """
         Create and return a query generator instance.
-        
-        Args:
-            api_key (str): Google Gemini API key
-            model_name (str): Name of the Gemini model
-            
-        Returns:
-            GeminiQueryGenerator: Configured query generator instance
         """
-        return GeminiQueryGenerator(api_key, model_name)
+        return LLMQueryGenerator(api_key, model_name)
