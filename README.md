@@ -70,8 +70,8 @@ Open VS Code terminal and run these commands:
 #### 1. Clone Repository (if from GitHub)
 
 ```cmd
-git clone https://github.com/meethp1884/nlc_nl2sql.git
-cd nlc_nl2sql
+git clone https://github.com/mehta-sahil/natural_language_to_sql_query_chatbot.git
+cd natural_language_to_sql_query_chatbot
 ```
 
 #### 2. Create Virtual Environment
