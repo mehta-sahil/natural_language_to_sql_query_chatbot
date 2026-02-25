@@ -76,7 +76,7 @@ class GeminiQueryGenerator:
     Follows Interface Segregation Principle.
     """
     
-    def __init__(self, api_key: str, model_name: str = "gemini-2.5-pro"):
+    def __init__(self, api_key: str, model_name: str = "gemini-2.5-flash"):
         """
         Initialize Gemini query generator.
         
