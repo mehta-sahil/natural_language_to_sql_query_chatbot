@@ -213,7 +213,7 @@ class QueryGeneratorFactory:
     """
     
     @staticmethod
-    def create_generator(api_key: str, model_name: str = "gemini-2.5-pro") -> LLMQueryGenerator:
+    def create_generator(api_key: str, model_name: str = "gemini-2.5-flash") -> LLMQueryGenerator:
         """
         Create and return a query generator instance.
         """
