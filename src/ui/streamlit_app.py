@@ -198,5 +198,4 @@ class StreamlitUI:
         <small>Natural Language to SQL Query Chatbot | Read-only database access</small>
         </div>
         """, unsafe_allow_html=True)
-if __name__ == "__main__":
-    StreamlitUI().run()
+
