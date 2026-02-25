@@ -58,7 +58,7 @@ class Config:
     @property
     def MODEL_NAME(self) -> str:
         """Get Gemini model name."""
-        return "gemini-2.5-pro"
+        return "gemini-2.5-flash"
     
     def _validate_environment(self) -> None:
         """
