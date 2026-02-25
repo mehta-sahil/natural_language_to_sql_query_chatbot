@@ -272,7 +272,7 @@ Once the application is running, try these natural language queries:
 - Add docstrings to all classes and methods
 - Keep functions focused and small
 
-## 📦 Dependencies
+## Dependencies
 
 ```
 streamlit              # Web application framework
